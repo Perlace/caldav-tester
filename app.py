@@ -286,7 +286,16 @@ def api_events():
         end_dt = datetime.strptime(end_str, "%Y-%m-%d").replace(hour=23, minute=59, second=59)
 
         client = caldav.DAVClient(url=url, username=user, password=pwd)
-        cal = client.calendar(url=cal_url)
+        # Récupérer le calendrier via le principal pour éviter les 404
+        principal = client.principal()
+        cal = None
+        for c in principal.calendars():
+            if str(c.url) == cal_url or str(c.url).rstrip("/") == cal_url.rstrip("/"):
+                cal = c
+                break
+        if cal is None:
+            # Fallback : construction directe
+            cal = client.calendar(url=cal_url)
         events_raw = cal.date_search(start=start_dt, end=end_dt, expand=True)
 
         events = []
