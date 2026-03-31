@@ -5,19 +5,23 @@ App web simple pour tester des connexions CalDAV et visualiser des calendriers.
 ## Prérequis
 
 - Python 3.8+
-- pip
 
 ## Installation
 
 ```bash
-git clone https://github.com/Perlace/o2switch-tools.git
-cd o2switch-tools/caldav-tester
+git clone https://github.com/Perlace/caldav-tester.git
+cd caldav-tester
+python3 -m venv .venv
+source .venv/bin/activate
 pip install flask caldav icalendar
 ```
+
+> Sur Windows : `.venv\Scripts\activate` à la place de `source .venv/bin/activate`
 
 ## Lancement
 
 ```bash
+source .venv/bin/activate
 python app.py
 ```
 
@@ -42,16 +46,9 @@ L'app est accessible sur **http://localhost:5588**
 
 ## Dépannage
 
-Si `pip` n'est pas disponible :
+Si `python3 -m venv` échoue sur Ubuntu/Debian :
 ```bash
-python3 -m pip install flask caldav icalendar
-# ou
-python3 -m ensurepip --upgrade && python3 -m pip install flask caldav icalendar
-```
-
-Sur Ubuntu/Debian sans pip :
-```bash
-sudo apt install python3-pip python3-venv
+sudo apt install python3-venv python3-pip
 python3 -m venv .venv
 source .venv/bin/activate
 pip install flask caldav icalendar
