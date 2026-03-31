@@ -296,7 +296,11 @@ def api_events():
         if cal is None:
             # Fallback : construction directe
             cal = client.calendar(url=cal_url)
-        events_raw = cal.date_search(start=start_dt, end=end_dt, expand=True)
+        # expand=True non supporté par tous les serveurs — on filtre côté client
+        try:
+            events_raw = cal.date_search(start=start_dt, end=end_dt, expand=False)
+        except Exception:
+            events_raw = cal.events()
 
         events = []
         for ev in events_raw:
